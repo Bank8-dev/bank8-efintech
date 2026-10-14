@@ -1,0 +1,127 @@
+# SPDX-FileCopyrightText: Copyright Logically Magic Inc. <hello@logicallymagic.com>
+# SPDX-FileCopyrightText: Copyright Hamid Jahanzad <Hamid@Jahanzad.com>
+# SPDX-FileCopyrightText: Copyright Contributors to the Bank8:EFintech
+# SPDX-License-Identifier: Apache-2.0
+
+openapi: 3.1.0
+info:
+  title: eFintech Sentin8:BFF API
+  description: eFintech Backend for Frontend (Sentin8:BFF) API surface. FDX Data Recipient demo.
+  version: 0.1.0
+servers:
+  - url: https://bff.bank8-efintech.{env}.{org}.sentin8.local
+    variables:
+      env: {default: prod}
+      org: {default: acme}
+paths:
+  /auth/login:
+    get:
+      summary: Start OAuth login flow (PKCE S256 via Sentin8:Auth)
+      responses:
+        '302':
+          description: Redirect to Sentin8:Auth authorize endpoint
+  /auth/callback:
+    get:
+      summary: OAuth callback handler
+      parameters:
+        - {name: code, in: query, required: true, schema: {type: string}}
+        - {name: state, in: query, required: true, schema: {type: string}}
+      responses:
+        '302':
+          description: Redirect to eFintech home
+    post:
+      summary: Programmatic callback (mobile)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code: {type: string}
+                state: {type: string}
+                redirectUri: {type: string, format: uri}
+                clientId: {type: string}
+                verifier: {type: string}
+                authDomain: {type: string}
+      responses:
+        '200':
+          description: Session created
+  /auth/session:
+    get:
+      summary: Get current session
+      responses:
+        '200':
+          description: Session info
+        '401':
+          description: Not signed in
+  /auth/sign-out:
+    post:
+      summary: Sign out
+      parameters:
+        - {name: X-Sentin8:BFF-CSRF, in: header, required: true, schema: {type: string}}
+      responses:
+        '200':
+          description: Signed out
+  /proxy/fdx/{path}:
+    parameters:
+      - {name: path, in: path, required: true, schema: {type: string}, description: Bank8:FDX recipient API path (e.g. v1/recipient/providers)}
+    get:
+      summary: Proxy to Bank8:FDX recipient (read)
+      responses:
+        '200':
+          description: Bank8:FDX response
+    post:
+      summary: Proxy to Bank8:FDX recipient (write — consent start, revoke, refresh)
+      parameters:
+        - {name: X-Sentin8:BFF-CSRF, in: header, required: true, schema: {type: string}}
+      responses:
+        '200':
+          description: Bank8:FDX response
+        '409':
+          description: Idempotency conflict
+  /proxy/db/{path}:
+    parameters:
+      - {name: path, in: path, required: true, schema: {type: string}}
+    get:
+      summary: Proxy to Sentin8:DB (read)
+      responses:
+        '200':
+          description: Sentin8:DB response
+    post:
+      summary: Proxy to Sentin8:DB (write)
+      parameters:
+        - {name: X-Sentin8:BFF-CSRF, in: header, required: true, schema: {type: string}}
+      responses:
+        '200':
+          description: Sentin8:DB response
+  /proxy/storage/{path}:
+    parameters:
+      - {name: path, in: path, required: true, schema: {type: string}}
+    get:
+      summary: Proxy to Sentin8:Storage (read)
+      responses:
+        '200':
+          description: Sentin8:Storage response
+    post:
+      summary: Proxy to Sentin8:Storage (write)
+      parameters:
+        - {name: X-Sentin8:BFF-CSRF, in: header, required: true, schema: {type: string}}
+      responses:
+        '200':
+          description: Sentin8:Storage response
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id: {type: string}
+        email: {type: string, format: email}
+        displayName: {type: string}
+        avatarUrl: {type: string, format: uri}

@@ -1,0 +1,41 @@
+{
+  "vertical": "bank8",
+  "services": [],
+  "apps": [
+    {
+      "slug": "efintech",
+      "web_dir": "build/web",
+      "listing": {
+        "app_name": "Bank8:eFintech",
+        "app_slug": "bank8-efintech",
+        "description": "FDX Data Recipient app — connect your external bank accounts, view balances, transactions, and manage consent.",
+        "backend_url": "http://localhost:3006",
+        "supports_dcr": true,
+        "visibility": "public",
+        "status": "published",
+        "oauth_defaults": {
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "response_types": [
+            "code"
+          ],
+          "token_endpoint_auth_method": "none",
+          "scopes": [
+            "openid",
+            "profile",
+            "email",
+            "bank8:fdx:recipient:read",
+            "bank8:fdx:recipient:write",
+            "db:data:read",
+            "db:data:write",
+            "storage:env:read",
+            "storage:env:write"
+          ],
+          "consent_required": true
+        }
+      }
+    }
+  ]
+}

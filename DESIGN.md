@@ -34,7 +34,7 @@ graph TD
 
 ```mermaid
 graph TD
-    subgraph eFintech process (Flutter web)
+    subgraph SGj06uab["eFintech process (Flutter web)"]
         MAIN[main.dart — bootstrap + theme] --> CTX[EFintechContext inherited provider]
         CTX --> SVC[EFintechServices fdx + db + storage]
         CTX --> AUTH[AuthProvider — BFF session]

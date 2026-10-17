@@ -1,4 +1,4 @@
-# BUSINESS.md: Bank8:eFintech — Business Requirements & Functionality
+# Bank8:eFintech — Business Requirements & Functionality
 
 > Audience: product owners, business analysts, and anyone evaluating what
 > Bank8:eFintech **does for the business**. For architecture read `README.md`;

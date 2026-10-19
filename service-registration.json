@@ -8,7 +8,7 @@
       "listing": {
         "app_name": "Bank8:eFintech",
         "app_slug": "bank8-efintech",
-        "description": "FDX Data Recipient app — connect your external bank accounts, view balances, transactions, and manage consent.",
+        "description": "FDX Data Recipient app - connect your external bank accounts, view balances, transactions, and manage consent.",
         "backend_url": "http://localhost:3006",
         "supports_dcr": true,
         "visibility": "public",

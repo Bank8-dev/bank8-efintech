@@ -1,4 +1,4 @@
-# Bank8:eFintech — Detailed Design Document
+# Bank8:eFintech - Detailed Design Document
 
 Overview-level material lives in `README.md`; the business view lives in
 `BUSINESS.md`.
@@ -14,7 +14,7 @@ mirrored in `app.json`) and BFF scope whitelist (`bff8/scope_whitelist.rs`).
 
 **What eFintech does NOT own (delegates):** identity and the hosted consent
 UI (Sentin8:Auth); the FDX data plane, consent enforcement, and retrieval
-(Bank8:FDX); persistence and object access (Sentin8:DB, storage — via BFF);
+(Bank8:FDX); persistence and object access (Sentin8:DB, storage - via BFF);
 session/token custody (Sentin8:BFF); any ledger/payments surface (a recipient
 never touches the provider's core directly).
 
@@ -27,7 +27,7 @@ graph TD
     BFF --> DB[db]
     BFF --> STG[storage]
     FDX1 --> AUTH
-    FDX1 --> LED[External provider — Bank8:FDX provider plane]
+    FDX1 --> LED[External provider - Bank8:FDX provider plane]
 ```
 
 ## 2. Runtime Architecture
@@ -35,13 +35,13 @@ graph TD
 ```mermaid
 graph TD
     subgraph SGj06uab["eFintech process (Flutter web)"]
-        MAIN[main.dart — bootstrap + theme] --> CTX[EFintechContext inherited provider]
+        MAIN[main.dart - bootstrap + theme] --> CTX[EFintechContext inherited provider]
         CTX --> SVC[EFintechServices fdx + db + storage]
-        CTX --> AUTH[AuthProvider — BFF session]
-        SHELL[efintech_shell — hash router + sidebar guard] --> PAGES[pages/*]
+        CTX --> AUTH[AuthProvider - BFF session]
+        SHELL[efintech_shell - hash router + sidebar guard] --> PAGES[pages/*]
         PAGES --> HOOKS[fdx_hooks.dart DataState adapters]
         HOOKS --> SVC
-        PAGES --> ADMIN[pages/admin — instance / fdx]
+        PAGES --> ADMIN[pages/admin - instance / fdx]
         ADMIN --> SVC
     end
 ```
@@ -62,7 +62,7 @@ sequenceDiagram
     F->>R: POST /v1/recipient/consents/start
     R-->>F: consent id + authorization_url
     F-->>H: 200 {redirectUrl, authorization_url}
-    P->>P: location.replace(authorization_url) — hosted consent UI
+    P->>P: location.replace(authorization_url) - hosted consent UI
     A-->>R: customer authorizes/denies
     loop bounded poll (2s × 30)
         P->>H: refresh consent status
@@ -74,7 +74,7 @@ sequenceDiagram
     H->>B: GET /proxy/bank8-fdx/v1/recipient/accounts?consentId=…
     B->>R: GET /v1/recipient/accounts
     R-->>P: consented accounts
-    note over P,R: FAILED / TIMEOUT / poll exhaustion surface error frames — never silent waits
+    note over P,R: FAILED / TIMEOUT / poll exhaustion surface error frames - never silent waits
 ```
 
 Request lifecycle (revoke a consent):
@@ -89,7 +89,7 @@ sequenceDiagram
     H->>F: POST /proxy/bank8-fdx/v1/recipient/consents/{id}/revoke
     F->>R: POST /v1/recipient/consents/{id}/revoke
     R-->>F: revoked (linked provider tokens invalidated)
-    F-->>P: 200 — dashboard refreshes, consented data disappears
+    F-->>P: 200 - dashboard refreshes, consented data disappears
 ```
 
 ## 3. Data Model
@@ -137,7 +137,7 @@ flowchart LR
 ## 5. Cross-Cutting Concerns
 
 - **Authentication / token custody.** BFF session cookie only; OAuth tokens
-  attach server-side. Provider access tokens never exist in this app —
+  attach server-side. Provider access tokens never exist in this app -
   Bank8:FDX holds the retrieval credentials.
 - **Tenant resolution.** Fail-closed runtime-context bootstrap from own
   origin, identical to the other apps.
@@ -160,11 +160,11 @@ flowchart LR
   pending consent remains visible there).
 - **Consent FAILED/TIMEOUT** → the status is rendered with an explanatory
   state; a refresh or a fresh start attempt is offered.
-- **Revocation race** — revoke returns success upstream; the following list
+- **Revocation race** - revoke returns success upstream; the following list
   refresh removes the consent and its data from view even if the customer is
   on a stale page.
 - **Provider unreachable** (data plane) → retrieval snapshots fail upstream;
-  the app surfaces empty/error frames — it never cache-serves stale financial
+  the app surfaces empty/error frames - it never cache-serves stale financial
   data.
 
 ## 7. Concurrency & Performance Model
@@ -178,7 +178,7 @@ flowchart LR
 
 ## 8. Invariants, Insecure-Defaults Rejected, Unsafe Rationale
 
-- No direct external provider calls from the app — all FDX access is via the
+- No direct external provider calls from the app - all FDX access is via the
   Bank8:FDX recipient APIs through the BFF (CI guard `scripts/ci-guards.sh`
   enforces; direct provider HTTP is a hard failure).
 - No OAuth or provider token is ever present in the client.
@@ -198,7 +198,7 @@ flowchart LR
 | E2E (UI only) | customer sign-up → consent flow → consented data display inside `e2e-ts` lifecycle | Playwright + Flutter semantics bridge |
 
 Not tested here (platform scope): consent enforcement internals, provider
-token custody, retrieval scheduling, CSDF minimization — covered by
+token custody, retrieval scheduling, CSDF minimization - covered by
 Bank8:FDX's own suites.
 
 ```mermaid
@@ -212,7 +212,7 @@ graph TD
 ## 10. Open Questions
 
 - Recipient-initiated payment (money movement write) is a future FDX
-  capability — the current app is strictly data-read.
+  capability - the current app is strictly data-read.
 - Background aggregate refresh of consented accounts may move to a
   platform-scheduled retrieval job instead of client-pull; undecided.
 

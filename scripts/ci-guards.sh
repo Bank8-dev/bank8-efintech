@@ -3,7 +3,7 @@
 # SPDX-FileCopyrightText: Copyright Hamid Jahanzad <Hamid@Jahanzad.com>
 # SPDX-FileCopyrightText: Copyright Contributors to the Bank8:EFintech
 # SPDX-License-Identifier: Apache-2.0
-# eFintech CI Guard — detect prohibited patterns in eFintech code.
+# eFintech CI Guard - detect prohibited patterns in eFintech code.
 set -euo pipefail
 EBANK_DIR="$(cd "$(dirname "$0")" && pwd)"
 VIOLATIONS=0

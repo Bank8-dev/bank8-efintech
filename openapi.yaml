@@ -72,7 +72,7 @@ paths:
         '200':
           description: Bank8:FDX response
     post:
-      summary: Proxy to Bank8:FDX recipient (write — consent start, revoke, refresh)
+      summary: Proxy to Bank8:FDX recipient (write - consent start, revoke, refresh)
       parameters:
         - {name: X-Sentin8:BFF-CSRF, in: header, required: true, schema: {type: string}}
       responses:

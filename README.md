@@ -1,4 +1,4 @@
-# README.md: Bank8:eFintech — FDX Data Recipient App
+# README.md: Bank8:eFintech - FDX Data Recipient App
 
 > Third-party Sentin8:App application. It uses the Sentin8 Flutter SDK
 > (`sdk/flutter/sentin8`) as a published package. For wire-level detail read
@@ -11,16 +11,16 @@ catalogs external FDX data providers, initiates consent flows, tracks consent
 status, and displays consented account and transaction data retrieved through
 Bank8:FDX. It also carries a small staff admin surface (instance overview,
 FDX recipient-side administration). All backend access rides the
-Sentin8:BFF proxy — tokens never reach the client.
+Sentin8:BFF proxy - tokens never reach the client.
 
 ## 2. Motivation
 
 Open banking has two sides; eBank demonstrates the provider side, so the
 recipient side needs its own app: a fintech that **retrieves** financial data
 from external providers under customer consent. The recipient flow exercises
-the hardest open-banking UX — provider discovery, consent hand-off to the
+the hardest open-banking UX - provider discovery, consent hand-off to the
 hosted authorization UI, polling until the consent resolves, and
-consent-scoped data display — all through the platform's BFF/consent
+consent-scoped data display - all through the platform's BFF/consent
 machinery rather than bespoke integrations.
 
 ## 3. Architecture & High-Level Design
@@ -28,32 +28,32 @@ machinery rather than bespoke integrations.
 ```mermaid
 graph TD
     B[Browser] --> M[main.dart bootstrap]
-    M --> RC[fetchRuntimeContext — own origin, fail-closed]
-    M --> C[EFintechContext — inherited app state]
-    C --> S[EFintechServices — three BFF ApiClients]
+    M --> RC[fetchRuntimeContext - own origin, fail-closed]
+    M --> C[EFintechContext - inherited app state]
+    C --> S[EFintechServices - three BFF ApiClients]
 
-    subgraph SGcvnbup["Via Sentin8:BFF — session cookie, tokens server-side"]
-        S --> F[bank8-fdx — recipient APIs]
+    subgraph SGcvnbup["Via Sentin8:BFF - session cookie, tokens server-side"]
+        S --> F[bank8-fdx - recipient APIs]
         S --> D[db]
         S --> ST[storage]
     end
-    F --> AUTH[Sentin8:Auth — hosted consent UI]
+    F --> AUTH[Sentin8:Auth - hosted consent UI]
 ```
 
 Components:
 
-- **Bootstrap** — `fetchRuntimeContext()` (SDK) from the app's own origin;
+- **Bootstrap** - `fetchRuntimeContext()` (SDK) from the app's own origin;
   failure is fatal (`BootstrapError`), never degraded.
-- **`EFintechContext`** (`app_context.dart`) — single `ChangeNotifier` state
+- **`EFintechContext`** (`app_context.dart`) - single `ChangeNotifier` state
   holder (runtime context + auth + services).
-- **`EFintechServices`** (`services.dart`) — three BFF proxy clients: `fdx`,
-  `db`, `storage` — the smallest registry of the four apps (a recipient
+- **`EFintechServices`** (`services.dart`) - three BFF proxy clients: `fdx`,
+  `db`, `storage` - the smallest registry of the four apps (a recipient
   needs no ledger/payments/post access).
-- **`fdx_hooks.dart`** — recipient-side `DataState<T>` adapters: providers,
+- **`fdx_hooks.dart`** - recipient-side `DataState<T>` adapters: providers,
   consents (start/revoke/refresh), accounts (consent-filtered), transactions.
-- **Shell + routing** (`efintech_shell.dart`) — hash routing + sidebar with a
+- **Shell + routing** (`efintech_shell.dart`) - hash routing + sidebar with a
   delegation-aware route guard.
-- **Admin surface** (`pages/admin/`) — instance overview + FDX
+- **Admin surface** (`pages/admin/`) - instance overview + FDX
   recipient-side administration.
 
 ## 4. Key Traits and Data Structures
@@ -81,7 +81,7 @@ Components:
   history entry avoids the app being trapped in a consent loop via the back
   button. Rejected: `location.assign` (back-button trap).
 - **Smallest viable service registry.** The recipient never touches ledger
-  directly — all retrieved data comes back through FDX recipient APIs
+  directly - all retrieved data comes back through FDX recipient APIs
   (consent-checked upstream). Rejected: adding ledger/payments clients
   "for convenience" (would bypass the consent gate).
 - **Fail-closed bootstrap.** Same posture as the other apps: without a
@@ -100,7 +100,7 @@ Components:
   consent context from navigation. The app never displays data outside a
   consenting relationship.
 - **Invariants:**
-  - No direct external provider calls — all FDX traffic goes through
+  - No direct external provider calls - all FDX traffic goes through
     Bank8:FDX recipient APIs via the BFF (CI guard enforces).
   - No OAuth token in the client; the BFF attaches tokens server-side.
   - No page builds a service URL itself (runtime context + client path
@@ -108,7 +108,7 @@ Components:
 
 ## 7. Unresolved Questions / Future Designs
 - Payment initiation as FDX data recipient (money movement write through the
-  provider) is out of scope today — the app is data-read only.
+  provider) is out of scope today - the app is data-read only.
 - Aggregate refresh scheduling (background re-sync of consented accounts) is
   a platform/job concern not yet exposed to apps.
 

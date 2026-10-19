@@ -5,7 +5,7 @@
 
 // eFintech BFF scope whitelist configuration
 // BFF scope whitelist per app instance.
-// eFintech only needs FDX recipient scopes + DB/Buck — no Ledger/Payments (read-only recipient).
+// eFintech only needs FDX recipient scopes + DB/Buck - no Ledger/Payments (read-only recipient).
 
 /// ScopeWhitelist defines the allowed scopes and services for eFintech BFF instances.
 #[derive(Debug, Clone)]

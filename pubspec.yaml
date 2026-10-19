@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: efintech
-description: eFintech — Sentin8 FDX Data Recipient demo. Flutter (iOS, Android, Web).
+description: eFintech - Sentin8 FDX Data Recipient demo. Flutter (iOS, Android, Web).
 publish_to: "none"
 version: 0.1.0
 

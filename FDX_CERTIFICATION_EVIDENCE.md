@@ -1,6 +1,6 @@
 # eFintech FDX Recipient Certification Evidence
 
-Status: All evidence produced — ready for certification review
+Status: All evidence produced - ready for certification review
 
 ## Contract Tests Evidence
 | Test Suite | File | Status |
@@ -54,4 +54,4 @@ Status: All evidence produced — ready for certification review
 | 5 | Complete consent authorization at external provider | ✅ Verified |
 | 6 | View consented accounts from Bank8:FDX snapshots | ✅ Verified |
 | 7 | View transaction history with pagination | ✅ Verified |
-| 8 | Revoke consent — data access denied | ✅ Verified |
+| 8 | Revoke consent - data access denied | ✅ Verified |

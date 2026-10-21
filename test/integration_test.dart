@@ -10,21 +10,21 @@ import 'package:efintech/services.dart';
 void main() {
   group('Consent flow integration', () {
     test('EFintechServices provides FDX client for consent operations', () {
-      final s = EFintechServices(bffBaseUrl: 'https://bff.bank8-efintech.prod.acme.sentin8.local');
+      final s = EFintechServices(bffBaseUrl: 'https://bff.bank8-efintech.prod.acme.local.sentin8.dev');
       expect(s.fdx.serviceName, equals('bank8-fdx'));
     });
   });
 
   group('Provider catalog integration', () {
     test('FDX client available for provider catalog', () {
-      final s = EFintechServices(bffBaseUrl: 'https://bff.bank8-efintech.prod.acme.sentin8.local');
+      final s = EFintechServices(bffBaseUrl: 'https://bff.bank8-efintech.prod.acme.local.sentin8.dev');
       expect(s.fdx, isNotNull);
     });
   });
 
   group('Data refresh integration', () {
     test('FDX client available for refresh trigger', () {
-      final s = EFintechServices(bffBaseUrl: 'https://bff.bank8-efintech.prod.acme.sentin8.local');
+      final s = EFintechServices(bffBaseUrl: 'https://bff.bank8-efintech.prod.acme.local.sentin8.dev');
       expect(s.fdx, isNotNull);
     });
   });

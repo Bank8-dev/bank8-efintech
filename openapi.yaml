@@ -9,7 +9,7 @@ info:
   description: eFintech Backend for Frontend (Sentin8:BFF) API surface. FDX Data Recipient demo.
   version: 0.1.0
 servers:
-  - url: https://bff.bank8-efintech.{env}.{org}.sentin8.local
+  - url: https://bff.bank8-efintech.{env}.{org}.local.sentin8.dev
     variables:
       env: {default: prod}
       org: {default: acme}
